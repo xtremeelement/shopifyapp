@@ -7,20 +7,15 @@ export default function Home() {
   return (   
     <Page>
       <Head>
-        <title>Create Next App</title>
+        <title>Dashboard</title>
         <link rel="icon" href="/favicon.ico"/>
       </Head>
       <Layout>
         <Layout.Section>
-          <Card title="Order details" sectioned>
-            <p>View a summary of your order.</p>
+          <Card>
+            <p>This is the dashboard page.</p>
           </Card>
-        </Layout.Section>
-        <Layout.Section secondary>
-          <Card title="Tags" sectioned>
-            <p>Add tags to your order.</p>
-          </Card>
-        </Layout.Section>
+        </Layout.Section>        
       </Layout>
     </Page>
   )
