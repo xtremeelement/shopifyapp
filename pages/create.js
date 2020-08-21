@@ -1,8 +1,8 @@
 import Head from 'next/head'
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import styles from '../styles/Home.module.css'
 import Link from 'next/link';
-import {  Page,  Card,  Layout, Link as PLink, FormLayout, TextField, Heading,  MediaCard, PageActions } from '@shopify/polaris';
+import {  Page,  Card,  Layout, Link as PLink, FormLayout, TextField, Heading,  MediaCard, PageActions, ColorPicker , hsbToRgb} from '@shopify/polaris';
 import {ResourcePicker} from '@shopify/app-bridge-react';
 import { set } from 'js-cookie';
 import store from 'store-js'
@@ -11,7 +11,29 @@ export default function Create() {
 
   const [state, setState] = useState({
     modalOpen: false
-  });
+  })
+
+  const [formState, setFormState] = useState({
+      title: 'Test',
+      saleprice:'999'
+  })
+
+  
+
+  function handleText(name, text, id){
+      console.log(formState);
+      let newState = {
+          [name]: text
+      }
+      console.log({
+          ...formState,
+          ...newState
+      })
+      setFormState({
+          ...formState,
+          ...newState
+      })
+  }  
 
   function handleResourcePicker(resources){
     const products = resources.selection.map((product) => product.id );
@@ -20,6 +42,33 @@ export default function Create() {
     console.log(products);
     console.log(store.get('productIds'));
   }
+  
+
+  
+    const [color, setColor] = useState({
+        color:{
+            hue: 120,
+            brightness: 1,
+            saturation: 1            
+        },
+        rgbColor:{
+            red: 0,
+            green: 0,
+            blue: 0
+        }
+    });
+  
+    // const handleTextColor = useCallback(setColor, []);
+    function handleTextColor(color){        
+        let newRGBColor = hsbToRgb(color);        
+        let newState ={
+            color:color,
+            rgbColor:newRGBColor            
+        }
+        setColor(newState)
+    }
+
+
 
   return (   
     <Page
@@ -46,9 +95,34 @@ export default function Create() {
             >
                 <Card sectioned>
                 <FormLayout>
-                    <TextField type="text" label="Title" onChange={() => {}} />
-                    <TextField type="text" label="Sale Price" onChange={() => {}} />
-                    
+                    <TextField label="Title" onChange={(text, id) => handleText('title', text, id)} 
+                    value={formState.title}/>
+                    <TextField label="Sale Price" onChange={(text, id) =>handleText('saleprice', text, id)}
+                    value={formState.saleprice} />
+                    <div class="Polaris-Label">
+                        <label id="Polaris-ColorPickerLabel" for="Polaris-ColorPicker" class="Polaris-Label__Text">Choose Color</label>
+                    </div>
+                    <div style={{
+                        display: 'flex',
+                        
+                    }}>
+                        <ColorPicker onChange={handleTextColor} color={color.color} />
+                        <div style={{
+                            padding: '0 10px'
+                        }}>
+                            <div class="Polaris-Label" style={{
+                                
+                            }}>
+                                <label id="Polaris-SelectedColorLabel" for="Polaris-SelectedColor" class="Polaris-Label__Text">Selected Color</label>
+                            </div>
+                            <div style={{
+                                width: '100px',
+                                height: '40px',
+                                backgroundColor: `rgb(${color.rgbColor.red},${color.rgbColor.green},${color.rgbColor.blue})`
+                                }}>
+                            </div>
+                        </div>
+                    </div>
                 </FormLayout>
                 </Card>
             </Layout.AnnotatedSection>
