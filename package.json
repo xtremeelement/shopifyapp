@@ -8,6 +8,11 @@
     "start": "next start"
   },
   "dependencies": {
+    "@shopify/koa-shopify-auth": "^3.1.66",
+    "dotenv": "^8.2.0",
+    "isomorphic-fetch": "^2.2.1",
+    "koa": "^2.13.0",
+    "koa-session": "^6.0.0",
     "next": "9.5.2",
     "react": "16.13.1",
     "react-dom": "16.13.1"
