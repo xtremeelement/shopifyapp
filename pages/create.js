@@ -49,12 +49,12 @@ export default function Create() {
         color:{
             hue: 120,
             brightness: 1,
-            saturation: 1            
+            saturation: 0            
         },
         rgbColor:{
-            red: 0,
-            green: 0,
-            blue: 0
+            red: 255,
+            green: 255,
+            blue: 255
         }
     });
   
@@ -66,6 +66,28 @@ export default function Create() {
             rgbColor:newRGBColor            
         }
         setColor(newState)
+    }
+    const [bgColor, setBgColor] = useState({
+        color:{
+            hue: 120,
+            brightness: 1,
+            saturation: 0            
+        },
+        rgbColor:{
+            red: 255,
+            green: 255,
+            blue: 255
+        }
+    });
+  
+    // const handleTextColor = useCallback(setColor, []);
+    function handleBGColor(color){        
+        let newRGBColor = hsbToRgb(color);        
+        let newState ={
+            color:color,
+            rgbColor:newRGBColor            
+        }
+        setBgColor(newState)
     }
 
 
@@ -99,29 +121,53 @@ export default function Create() {
                     value={formState.title}/>
                     <TextField label="Sale Price" onChange={(text, id) =>handleText('saleprice', text, id)}
                     value={formState.saleprice} />
+                    <div>
+                        <div class="Polaris-Label">
+                            <label id="Polaris-ColorPickerLabel" for="Polaris-ColorPicker" class="Polaris-Label__Text">Choose Text Color</label>
+                        </div>
+                        <div style={{
+                            display: 'flex',
+                            
+                        }}>
+                            <ColorPicker onChange={handleTextColor} color={color.color} />
+                            <div style={{
+                                padding: '0 10px'
+                            }}>
+                                <div class="Polaris-Label">
+                                    <label id="Polaris-SelectedColorLabel" for="Polaris-SelectedColor" class="Polaris-Label__Text">Selected Color</label>
+                                </div>
+                                <div style={{
+                                    width: '100px',
+                                    height: '40px',
+                                    backgroundColor: `rgb(${color.rgbColor.red},${color.rgbColor.green},${color.rgbColor.blue})`
+                                    }}>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
                     <div class="Polaris-Label">
-                        <label id="Polaris-ColorPickerLabel" for="Polaris-ColorPicker" class="Polaris-Label__Text">Choose Color</label>
+                        <label id="Polaris-ColorPickerLabel" for="Polaris-ColorPicker" class="Polaris-Label__Text">Choose Background Color</label>
                     </div>
                     <div style={{
                         display: 'flex',
                         
                     }}>
-                        <ColorPicker onChange={handleTextColor} color={color.color} />
+                        <ColorPicker onChange={handleBGColor} color={bgColor.color} />
                         <div style={{
                             padding: '0 10px'
                         }}>
-                            <div class="Polaris-Label" style={{
-                                
-                            }}>
+                            <div class="Polaris-Label" >
                                 <label id="Polaris-SelectedColorLabel" for="Polaris-SelectedColor" class="Polaris-Label__Text">Selected Color</label>
                             </div>
                             <div style={{
                                 width: '100px',
                                 height: '40px',
-                                backgroundColor: `rgb(${color.rgbColor.red},${color.rgbColor.green},${color.rgbColor.blue})`
+                                backgroundColor: `rgb(${bgColor.rgbColor.red},${bgColor.rgbColor.green},${bgColor.rgbColor.blue})`
                                 }}>
                             </div>
                         </div>
+                    </div>
                     </div>
                 </FormLayout>
                 </Card>
