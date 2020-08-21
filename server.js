@@ -2,7 +2,8 @@ const Koa = require('koa');
 const next = require('next');
 const Router = require('@koa/router');
 require('isomorphic-fetch');
-
+const dotenv = require('dotenv');
+dotenv.config();
 const port = parseInt(process.env.PORT, 10) || 3000;
 const dev = process.env.NODE_ENV !== 'production';
 const app = next({ dev });
@@ -14,6 +15,9 @@ const { SHOPIFY_API_SECRET_KEY, SHOPIFY_API_KEY } = process.env;
 
 app.prepare().then(() => {
   const server = new Koa();
+  server.use(session({ secure:true, sameSite: 'none' }, server));
+  server.keys = [SHOPIFY_API_SECRET_KEY];
+
   const router = new Router();
 
   router.get('/a', async (ctx) => {
@@ -26,10 +30,10 @@ app.prepare().then(() => {
     ctx.respond = false;
   });
 
-  router.all('*', async (ctx) => {
-    await handle(ctx.req, ctx.res);
-    ctx.respond = false;
-  });
+//   router.all('*', async (ctx) => {
+//     await handle(ctx.req, ctx.res);
+//     ctx.respond = false;
+//   });
 
   server.use(async (ctx, next) => {
     ctx.res.statusCode = 200;
@@ -37,8 +41,6 @@ app.prepare().then(() => {
   });
 
   server.use(router.routes());
-  server.use(session({ secure:true, sameSite: 'none' }, server));
-  server.keys = [SHOPIFY_API_SECRET_KEY];
 
   server.use(
       createShopifyAuth({
@@ -47,7 +49,7 @@ app.prepare().then(() => {
           scopes: ['read_products'],
           afterAuth(ctx) {
               const { shop, accessToken } = ctx.session;
-              ctx.redirect('/');
+              ctx.redirect(`https://${shop}/admin/apps/geeksample`);
           }
       })
   );
