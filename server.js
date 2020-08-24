@@ -2,6 +2,7 @@ const Koa = require('koa');
 const next = require('next');
 const Router = require('@koa/router');
 require('isomorphic-fetch');
+const json = require('koa-json');
 const dotenv = require('dotenv');
 dotenv.config();
 const port = parseInt(process.env.PORT, 10) || 3000;
@@ -14,13 +15,13 @@ const session = require('koa-session');
 const { SHOPIFY_API_SECRET_KEY, SHOPIFY_API_KEY } = process.env;
 const { default: graphQLProxy } = require("@shopify/koa-shopify-graphql-proxy");
 const { ApiVersion } = require("@shopify/koa-shopify-graphql-proxy");
-
-
+const koaBody = require('koa-body');
 
 app.prepare().then(() => {
   const server = new Koa();
   server.use(session({ secure:true, sameSite: 'none' }, server));
-  server.keys = [SHOPIFY_API_SECRET_KEY];
+  server.keys = [SHOPIFY_API_SECRET_KEY];  
+  server.use(json());
 
   const router = new Router();
 
@@ -32,6 +33,12 @@ app.prepare().then(() => {
   router.get('/b', async (ctx) => {
     await app.render(ctx.req, ctx.res, '/b', ctx.query);
     ctx.respond = false;
+  });
+  // API Routes
+  router.post('/api/banners', koaBody(), async (ctx) => {
+    // await app.render(ctx.req, ctx.res, '/b', ctx.query);
+    // ctx.respond = false;
+    console.log(ctx.request.body);
   });
 
 //   router.all('*', async (ctx) => {

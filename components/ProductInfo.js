@@ -48,12 +48,12 @@ export default function ProductInfo({setProductInfoState}){
         const product = resources.selection[0];
         setProductInfoState({
             title: product.title,
-            description: product.id,
+            description: product.descriptionHtml.replace( /(<([^>]+)>)/ig, ''),
             id: product.id,
             imageUrl: product.images[0].originalSrc
         })
         console.log(resources.selection[0]);
-        console.log(store.get('productIds'));
+        // console.log(store.get('productIds'));
     }
     const { loading, error, data } = useQuery(GET_PRODUCTS,{
         variables: {
@@ -74,7 +74,7 @@ export default function ProductInfo({setProductInfoState}){
                     id: data.nodes[0].id,
                     image_url: data.nodes[0].images.edges[0].node.originalSrc,
                 }
-                console.log(product);
+                // console.log(product);
                 return(
                 <MediaCard
                     title={product.title}

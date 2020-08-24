@@ -1,44 +1,45 @@
-import Head from 'next/head'
+import Head from 'next/head';
 import React, { useState, useEffect, useCallback } from 'react';
-import styles from '../styles/Home.module.css'
+import styles from '../styles/Home.module.css';
 import Link from 'next/link';
 import {  Page,  Card,  Layout, Link as PLink, FormLayout, TextField, Heading,  MediaCard, PageActions, ColorPicker , hsbToRgb, Select} from '@shopify/polaris';
 import { set } from 'js-cookie';
-import store from 'store-js'
-import ProductInfo from '../components/ProductInfo'
+import store from 'store-js';
+import ProductInfo from '../components/ProductInfo';
+import axios from 'axios';
 
 export default function Create() {
 
   const [state, setState] = useState({
     modalOpen: false
-  })
+  });
 
   const [formState, setFormState] = useState({
       title: 'Test',
       saleprice:'10'
-  })  
+  })  ;
 
   function handleText(name, text, id){
       console.log(formState);
       let newState = {
           [name]: text
-      }
+      };
       console.log({
           ...formState,
           ...newState
-      })
+      });
       setFormState({
           ...formState,
           ...newState
-      })
+      });
   }  
 
   function handleResourcePicker(resources){
     const products = resources.selection.map((product) => product.id );
     store.set('productIds', products);
     setState({modalOpen:false});
-    console.log(store.get('productIds'));
-  }
+    // console.log(store.get('productIds'));
+  };
 
     const [color, setColor] = useState({
         color:{
@@ -59,8 +60,8 @@ export default function Create() {
         let newState ={
             color:color,
             rgbColor:newRGBColor            
-        }
-        setColor(newState)
+        };
+        setColor(newState);
     }
 
     const [bgColor, setBgColor] = useState({
@@ -82,8 +83,8 @@ export default function Create() {
         let newState ={
             color:color,
             rgbColor:newRGBColor            
-        }
-        setBgColor(newState)
+        };
+        setBgColor(newState);
     }
 
     const [bannerLocation, setBannerLocation] = useState('top');
@@ -241,9 +242,18 @@ export default function Create() {
                         salePrice: formState.saleprice,
                         textColor: color.rgbColor,
                         bgColor: bgColor.rgbColor,
-                        bannerLocation: bannerLocation
+                        bannerLocation,
+                        productInfo
                     }
-                    console.log(savedData);
+                    axios.post('/api/banners',{
+                        savedData
+                    })
+                    .then((res)=>{
+                        console.log(res);
+                    }).catch((err) =>{
+                        console.log(err)
+                    })
+                    // console.log(savedData);
                 }
             }}
             secondaryActions={[
