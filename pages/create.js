@@ -3,9 +3,9 @@ import React, { useState, useEffect, useCallback } from 'react';
 import styles from '../styles/Home.module.css'
 import Link from 'next/link';
 import {  Page,  Card,  Layout, Link as PLink, FormLayout, TextField, Heading,  MediaCard, PageActions, ColorPicker , hsbToRgb} from '@shopify/polaris';
-import {ResourcePicker} from '@shopify/app-bridge-react';
 import { set } from 'js-cookie';
 import store from 'store-js'
+import ProductInfo from '../components/ProductInfo'
 
 export default function Create() {
 
@@ -94,16 +94,7 @@ export default function Create() {
       <Head>
         <title>Geeksample</title>
         <link rel="icon" href="/favicon.ico"/>
-      </Head>
-      <ResourcePicker 
-        resourceType="Product"
-        open={state.modalOpen}
-        onCancel={()=>setState({modalOpen: false})}
-        showVariant={false}
-        onSelection={(resources)=>{          
-          handleResourcePicker(resources)
-        }}
-        />
+      </Head>      
         <Layout>
             <Layout.AnnotatedSection
                 title="Banner Title"
@@ -165,32 +156,7 @@ export default function Create() {
                 </FormLayout>
                 </Card>
             </Layout.AnnotatedSection>
-            <Layout.AnnotatedSection
-                title="Product Information"
-                description="Provide info of sale"
-            >
-            <Card sectioned>                
-                <MediaCard
-                    title="Test Product"
-                    primaryAction={{
-                        content: 'Select Product',
-                        onAction: () => {setState({modalOpen: true})},
-                    }}
-                    description={`Price: $49.95`}
-                    >
-                    <img
-                        alt=""
-                        width="100%"
-                        height="100%"
-                        style={{
-                        objectFit: 'cover',
-                        objectPosition: 'center',
-                        }}
-                        src="https://burst.shopifycdn.com/photos/smiling-businesswoman-in-office.jpg?width=1850"
-                    />
-                </MediaCard>                
-            </Card>
-            </Layout.AnnotatedSection>
+            <ProductInfo/>            
         </Layout>
         <PageActions
             primaryAction={{
