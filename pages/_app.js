@@ -6,6 +6,16 @@ import translations from '@shopify/polaris/locales/en.json';
 import { Component } from 'react';
 import { Provider } from '@shopify/app-bridge-react';
 import Cookies from 'js-cookie';
+import { ApolloProvider, ApolloClient, InMemoryCache} from '@apollo/client';
+
+
+const client = new ApolloClient({
+  uri: "/graphql",
+  fetchOptions: {
+    credentials: 'include'
+  },
+  cache: new InMemoryCache()
+});
 
 class MyApp extends App{
   render(){
@@ -23,7 +33,9 @@ class MyApp extends App{
         </Head>
         <Provider config={config}>
           <AppProvider i18n={"translations"}>
-            <Component {...pageProps} />
+            <ApolloProvider client={client}>
+              <Component {...pageProps} />
+            </ApolloProvider>
           </AppProvider>
         </Provider>
       </>
