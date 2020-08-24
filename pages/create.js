@@ -2,7 +2,7 @@ import Head from 'next/head'
 import React, { useState, useEffect, useCallback } from 'react';
 import styles from '../styles/Home.module.css'
 import Link from 'next/link';
-import {  Page,  Card,  Layout, Link as PLink, FormLayout, TextField, Heading,  MediaCard, PageActions, ColorPicker , hsbToRgb} from '@shopify/polaris';
+import {  Page,  Card,  Layout, Link as PLink, FormLayout, TextField, Heading,  MediaCard, PageActions, ColorPicker , hsbToRgb, Select} from '@shopify/polaris';
 import { set } from 'js-cookie';
 import store from 'store-js'
 import ProductInfo from '../components/ProductInfo'
@@ -86,6 +86,16 @@ export default function Create() {
         setBgColor(newState)
     }
 
+    const [bannerLocation, setBannerLocation] = useState('top');
+
+    const handleBannerLocation = useCallback((value) => setBannerLocation(value), []);
+
+    const bannerLocationOptions = [
+        {label: 'Top of Page', value: 'top'},
+        {label: 'Bottom of Page', value: 'bottom'},
+        {label: 'Custom', value: 'custom'},
+      ];
+
   return (   
     <Page
     breadcrumbs={[{content: 'Home', url: '/'}]}
@@ -156,7 +166,20 @@ export default function Create() {
                 </FormLayout>
                 </Card>
             </Layout.AnnotatedSection>
-            <ProductInfo/>            
+            <ProductInfo/>   
+            <Layout.AnnotatedSection
+                title="Banner Location"
+                description="Choose where you want the banner to show"
+            >
+                <Card sectioned>                    
+                    <Select
+                        label="Location"
+                        options={bannerLocationOptions}
+                        onChange={handleBannerLocation}
+                        value={bannerLocation}
+                        />                    
+                </Card>
+            </Layout.AnnotatedSection>         
         </Layout>
         <PageActions
             primaryAction={{
