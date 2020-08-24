@@ -179,7 +179,54 @@ export default function Create() {
                         value={bannerLocation}
                         />                    
                 </Card>
-            </Layout.AnnotatedSection>         
+            </Layout.AnnotatedSection>            
+            <Layout.Section>
+                <Card title="Banner Preview" sectioned>
+                    <div style={{
+                        width: '100%',
+                        display: 'flex'
+                    }}>
+                        <div style={{
+                            maxWidth: '1200px',
+                            width: '100%',
+                            display: 'flex',
+                            padding: '40px 20px',
+                            backgroundColor: `rgba(${bgColor.rgbColor.red}, ${bgColor.rgbColor.green}, ${bgColor.rgbColor.blue}, 1)`
+                        }}>
+                            <div style={{
+                                width: '200px',
+                                display: 'flex',
+                                justifyContent: 'center',
+                                alignItems: 'center',
+                                flexDirection: 'row',
+                                flexGrow: '1'
+                            }}>
+                                <img style={{
+                                    width:'200px'
+                                }}src="https://cdn.shopify.com/s/files/1/0465/7702/5184/products/DB69_GhoulsFacesGloves.jpg?v=1598035083"/>
+                                <div style={{
+                                    width: '100%',
+                                    display: 'flex',
+                                    justifyContent: 'center',
+                                    alignItems: 'center',
+                                    flexDirection: 'column'
+                                }}>
+                                    <h2 style={{
+                                        fontSize: '3rem',
+                                        marginBottom: '1.5rem',
+                                        fontWeight: '700',
+                                        color: `rgba(${color.rgbColor.red}, ${color.rgbColor.green}, ${color.rgbColor.blue}, 1)`
+                                    }}>{formState.title}</h2>
+                                    <span style={{
+                                        fontSize: '5rem',
+                                        color: `rgba(${color.rgbColor.red}, ${color.rgbColor.green}, ${color.rgbColor.blue}, 1)`
+                                    }}>{formState.saleprice}% OFF!</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </Card>
+            </Layout.Section>                    
         </Layout>
         <PageActions
             primaryAction={{
