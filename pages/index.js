@@ -9,19 +9,11 @@ import store from 'store-js'
 import { userRouter, useRouter } from 'next/router';
 
 export default function Home() {
+  
+  const router = useRouter();  
 
-  const [state, setState] = useState({
-    modalOpen: false
-  });
-  const router = useRouter();
-
-  function handleResourcePicker(resources){
-    const products = resources.selection.map((product) => product.id );
-    store.set('productIds', products);
-    setState({modalOpen:false});
-    console.log(products);
-    console.log(store.get('productIds'));
-    router.push("/create")
+  function clickedStart(){
+    router.push('/create')
   }
 
   return (   
@@ -29,25 +21,16 @@ export default function Home() {
       <Head>
         <title>Geeksample</title>
         <link rel="icon" href="/favicon.ico"/>
-      </Head>
-      <ResourcePicker 
-        resourceType="Product"
-        open={state.modalOpen}
-        onCancel={()=>setState({modalOpen: false})}
-        showVariant={false}
-        onSelection={(resources)=>{          
-          handleResourcePicker(resources)
-        }}
-        />      
+      </Head>           
       <Layout>
         <Layout.Section>
           <EmptyState
             heading="Create a sale banner for a product"
-            action={{content: 'Select Product', onAction: ()=>{setState({modalOpen:true})}}}
+            action={{content: 'Start', onAction: ()=>{clickedStart()}}}
             secondaryAction={{content: 'Learn more', url: 'https://help.shopify.com'}}            
             image="https://cdn.shopify.com/s/files/1/0757/9955/files/empty-state.svg"
           >
-            <p>Create a sale banner anywhere on your page  .</p>
+            <p>Get more sales now using a sales banner!</p>
           </EmptyState>
         </Layout.Section>        
       </Layout>

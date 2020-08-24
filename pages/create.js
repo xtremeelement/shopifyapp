@@ -16,9 +16,7 @@ export default function Create() {
   const [formState, setFormState] = useState({
       title: 'Test',
       saleprice:'999'
-  })
-
-  
+  })  
 
   function handleText(name, text, id){
       console.log(formState);
@@ -39,12 +37,9 @@ export default function Create() {
     const products = resources.selection.map((product) => product.id );
     store.set('productIds', products);
     setState({modalOpen:false});
-    console.log(products);
     console.log(store.get('productIds'));
   }
-  
 
-  
     const [color, setColor] = useState({
         color:{
             hue: 120,
@@ -67,6 +62,7 @@ export default function Create() {
         }
         setColor(newState)
     }
+
     const [bgColor, setBgColor] = useState({
         color:{
             hue: 120,
@@ -89,8 +85,6 @@ export default function Create() {
         }
         setBgColor(newState)
     }
-
-
 
   return (   
     <Page
@@ -122,8 +116,8 @@ export default function Create() {
                     <TextField label="Sale Price" onChange={(text, id) =>handleText('saleprice', text, id)}
                     value={formState.saleprice} />
                     <div>
-                        <div class="Polaris-Label">
-                            <label id="Polaris-ColorPickerLabel" for="Polaris-ColorPicker" class="Polaris-Label__Text">Choose Text Color</label>
+                        <div className="Polaris-Label">
+                            <label id="Polaris-ColorPickerLabel" htmlFor="Polaris-ColorPicker" className="Polaris-Label__Text">Choose Text Color</label>
                         </div>
                         <div style={{
                             display: 'flex',
@@ -133,8 +127,8 @@ export default function Create() {
                             <div style={{
                                 padding: '0 10px'
                             }}>
-                                <div class="Polaris-Label">
-                                    <label id="Polaris-SelectedColorLabel" for="Polaris-SelectedColor" class="Polaris-Label__Text">Selected Color</label>
+                                <div className="Polaris-Label">
+                                    <label id="Polaris-SelectedColorLabel" htmlFor="Polaris-SelectedColor" className="Polaris-Label__Text">Selected Color</label>
                                 </div>
                                 <div style={{
                                     width: '100px',
@@ -146,19 +140,18 @@ export default function Create() {
                         </div>
                     </div>
                     <div>
-                    <div class="Polaris-Label">
-                        <label id="Polaris-ColorPickerLabel" for="Polaris-ColorPicker" class="Polaris-Label__Text">Choose Background Color</label>
+                    <div className="Polaris-Label">
+                        <label id="Polaris-ColorPickerLabel" htmlFor="Polaris-ColorPicker" className="Polaris-Label__Text">Choose Background Color</label>
                     </div>
                     <div style={{
                         display: 'flex',
-                        
                     }}>
                         <ColorPicker onChange={handleBGColor} color={bgColor.color} />
                         <div style={{
                             padding: '0 10px'
                         }}>
-                            <div class="Polaris-Label" >
-                                <label id="Polaris-SelectedColorLabel" for="Polaris-SelectedColor" class="Polaris-Label__Text">Selected Color</label>
+                            <div className="Polaris-Label" >
+                                <label id="Polaris-SelectedColorLabel" htmlFor="Polaris-SelectedColor" className="Polaris-Label__Text">Selected Color</label>
                             </div>
                             <div style={{
                                 width: '100px',
@@ -180,11 +173,10 @@ export default function Create() {
                 <MediaCard
                     title="Test Product"
                     primaryAction={{
-                        content: 'Change product',
-                        onAction: () => {},
+                        content: 'Select Product',
+                        onAction: () => {setState({modalOpen: true})},
                     }}
                     description={`Price: $49.95`}
-                    
                     >
                     <img
                         alt=""
