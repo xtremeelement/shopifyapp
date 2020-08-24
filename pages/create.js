@@ -15,7 +15,7 @@ export default function Create() {
 
   const [formState, setFormState] = useState({
       title: 'Test',
-      saleprice:'999'
+      saleprice:'10'
   })  
 
   function handleText(name, text, id){
@@ -96,6 +96,10 @@ export default function Create() {
         {label: 'Custom', value: 'custom'},
       ];
 
+    const [productInfo, setProductInfoState] = useState({
+        id: 'empty'
+    });
+
   return (   
     <Page
     breadcrumbs={[{content: 'Home', url: '/'}]}
@@ -166,7 +170,7 @@ export default function Create() {
                 </FormLayout>
                 </Card>
             </Layout.AnnotatedSection>
-            <ProductInfo/>   
+            <ProductInfo setProductInfoState={setProductInfoState}/>   
             <Layout.AnnotatedSection
                 title="Banner Location"
                 description="Choose where you want the banner to show"
@@ -203,7 +207,7 @@ export default function Create() {
                             }}>
                                 <img style={{
                                     width:'200px'
-                                }}src="https://cdn.shopify.com/s/files/1/0465/7702/5184/products/DB69_GhoulsFacesGloves.jpg?v=1598035083"/>
+                                }}src={productInfo.imageUrl}/>
                                 <div style={{
                                     width: '100%',
                                     display: 'flex',
@@ -213,12 +217,12 @@ export default function Create() {
                                 }}>
                                     <h2 style={{
                                         fontSize: '3rem',
-                                        marginBottom: '1.5rem',
+                                        marginBottom: '5rem',
                                         fontWeight: '700',
                                         color: `rgba(${color.rgbColor.red}, ${color.rgbColor.green}, ${color.rgbColor.blue}, 1)`
                                     }}>{formState.title}</h2>
                                     <span style={{
-                                        fontSize: '5rem',
+                                        fontSize: '5em',
                                         color: `rgba(${color.rgbColor.red}, ${color.rgbColor.green}, ${color.rgbColor.blue}, 1)`
                                     }}>{formState.saleprice}% OFF!</span>
                                 </div>
@@ -231,6 +235,16 @@ export default function Create() {
         <PageActions
             primaryAction={{
                 content: 'Save',
+                onAction: () => {
+                    const savedData = {
+                        title: formState.title,
+                        salePrice: formState.saleprice,
+                        textColor: color.rgbColor,
+                        bgColor: bgColor.rgbColor,
+                        bannerLocation: bannerLocation
+                    }
+                    console.log(savedData);
+                }
             }}
             secondaryActions={[
                 {

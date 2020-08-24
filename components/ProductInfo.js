@@ -33,7 +33,7 @@ const GET_PRODUCTS = gql`
     }    
 `;
 
-export default function ProductInfo(){
+export default function ProductInfo({setProductInfoState}){
     const [state, setState] = useState({
         modalOpen: false
       });
@@ -45,6 +45,14 @@ export default function ProductInfo(){
         store.set('productIds', products);
         setState({modalOpen:false});
         setProductChoice(true);
+        const product = resources.selection[0];
+        setProductInfoState({
+            title: product.title,
+            description: product.id,
+            id: product.id,
+            imageUrl: product.images[0].originalSrc
+        })
+        console.log(resources.selection[0]);
         console.log(store.get('productIds'));
     }
     const { loading, error, data } = useQuery(GET_PRODUCTS,{
