@@ -17,6 +17,8 @@ const { default: graphQLProxy } = require("@shopify/koa-shopify-graphql-proxy");
 const { ApiVersion } = require("@shopify/koa-shopify-graphql-proxy");
 const koaBody = require('koa-body');
 
+let mockDB = [];
+
 app.prepare().then(() => {
   const server = new Koa();
   server.use(session({ secure:true, sameSite: 'none' }, server));
@@ -38,7 +40,22 @@ app.prepare().then(() => {
   router.post('/api/banners', koaBody(), async (ctx) => {
     // await app.render(ctx.req, ctx.res, '/b', ctx.query);
     // ctx.respond = false;
+    mockDB.push(ctx.request.body);
     console.log(ctx.request.body);
+    ctx.body = {
+      status: 200,
+      message: 'Submitted banner data',
+      data: mockDB
+    }
+  });
+
+  router.get('/api/banners', koaBody(), async (ctx) => {
+    console.log(ctx.request.body);
+    ctx.body = {
+      status: 200,
+      message: 'All The Banners',
+      data: mockDB
+    }
   });
 
 //   router.all('*', async (ctx) => {
