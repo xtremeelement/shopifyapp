@@ -16,6 +16,7 @@ const { SHOPIFY_API_SECRET_KEY, SHOPIFY_API_KEY } = process.env;
 const { default: graphQLProxy } = require("@shopify/koa-shopify-graphql-proxy");
 const { ApiVersion } = require("@shopify/koa-shopify-graphql-proxy");
 const koaBody = require('koa-body');
+const serve = require('koa-static');
 
 let mockDB = [];
 
@@ -31,11 +32,7 @@ app.prepare().then(() => {
     await app.render(ctx.req, ctx.res, '/a', ctx.query);
     ctx.respond = false;
   });
-
-  router.get('/b', async (ctx) => {
-    await app.render(ctx.req, ctx.res, '/b', ctx.query);
-    ctx.respond = false;
-  });
+ 
   // API Routes
   router.post('/api/banners', koaBody(), async (ctx) => {
     // await app.render(ctx.req, ctx.res, '/b', ctx.query);
@@ -87,6 +84,7 @@ app.prepare().then(() => {
           }
       })
   );
+  server.use(serve(__dirname + '/public'));
 
   server.use(graphQLProxy({ version: ApiVersion.October19}));
   server.use(verifyRequest());
